@@ -329,12 +329,16 @@ class BayesianNetwork(object):
         				ptrue *= self.varMap[child.getVariable()].getProbability(assignList, False)
         				assignList[noEvidenceNode.getName()] = False# set current no-evidence variale = False
         				pfalse *= self.varMap[child.getVariable()].getProbability(assignList, False)
-        		P = ptrue/(ptrue+pfalse) #Normalize
+        		# Normalizing:
+        		if ptrue+pfalse == 0:
+        			P = 0
+        		else:
+        			P = ptrue/(ptrue+pfalse)
         		rann = random.random() # Generate random
         		if rann <= P: #assigning new value for the current noEvidenceNode
         			mySample.setAssignment(noEvidenceNode.getName(), True)
         		else:
         			mySample.setAssignment(noEvidenceNode.getName(), False)
-        if count[0]+count[1] == 0
+        if count[0]+count[1] == 0:
         	return 0
         return count[0]/(count[1]+count[0])
